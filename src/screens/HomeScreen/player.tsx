@@ -122,7 +122,7 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
       <Animated.View style={[styles.imageContainer]}>
         <View style={styles.imageWrapper}>
           <Image
-            source={{ uri: trackImage }}
+            source={ trackImage ? {uri: trackImage} : require('../../assets/images/thriller.png')}
             style={styles.image}
             resizeMode="stretch"
             onError={(e) => console.error('Image Load Error:', e.nativeEvent.error)}
