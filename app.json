@@ -1,0 +1,7 @@
+{
+  "name": "Sep17",
+  "displayName": "Sep17",
+  "plugins": [
+    ["@react-native-google-signin/google-signin"]
+  ]
+}

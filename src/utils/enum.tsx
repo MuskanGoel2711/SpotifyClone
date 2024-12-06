@@ -1,0 +1,21 @@
+export default {
+    searchHeader: "Search",
+    searchText: "What do you want to listen to?",
+    libraryText: "Your Library",
+    artistHeader: "Artists",
+    premium: "Premium",
+    millionText: "Millions of songs.",
+    spotifyText: "Free on Spotify.",
+    signUpText: "Sign up for free",
+    logIn: "Log in",
+    email: "Email or username",
+    password: "Password",
+    signUp: "Sign up",
+    emailSign: "What's your email?",
+    passwordSign: "Create a password",
+    register: "Register",
+    signIn: "Sign up",
+    signInGoogle: "Sign in with Google",
+    settingHeader: "Settings",
+    logOut: "Log out"
+}

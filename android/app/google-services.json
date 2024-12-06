@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1069575896038",
+    "project_id": "spotifyclone-b9d70",
+    "storage_bucket": "spotifyclone-b9d70.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069575896038:android:1ef92c013d3811e2c8f427",
+        "android_client_info": {
+          "package_name": "com.sep17"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069575896038-n5o7etl8ljs5i6srnplo0dcmvjks4te5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sep17",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1069575896038-sq24pipv6bunt9evq13tilr6m0egd3f9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHKgmKDM3CFi6YPvaFu277Ifv0cyHPXzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069575896038-8li1vrhvbtivbkptm0dve6fda72j10kq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1069575896038-bakimk9d05rivl59l0pn01fbklrj1dmp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.Sep17"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
