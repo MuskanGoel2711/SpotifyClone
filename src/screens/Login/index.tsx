@@ -9,6 +9,7 @@ import auth from '@react-native-firebase/auth';
 import string from '../../utils/enum';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/config/AuthSlice';
+import CustomButton from '../../components/CustomButton/customButton';
 
 interface LoginProps {
   navigation: any;
@@ -117,13 +118,13 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
         </View>
         {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
       </View>
-      <TouchableOpacity
+      <CustomButton
+        title= {string.logIn}
         style={buttonDisabled ? styles.buttonDisabled : styles.buttonContainer}
         disabled={buttonDisabled}
         onPress={handleLogin}
-      >
-        <Text style={styles.buttonText}>{string.logIn}</Text>
-      </TouchableOpacity>
+        textStyle={styles.buttonText}
+      />
     </View>
   );
 };

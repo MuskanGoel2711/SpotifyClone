@@ -9,7 +9,7 @@ import Login from '../screens/Login';
 import Album from '../screens/HomeScreen/album';
 import Track from '../screens/HomeScreen/track';
 import Signup from '../screens/SignUp/index';
-import Player from '../screens/HomeScreen/player';
+import Player from '../screens/HomeScreen/Player/player';
 import SignInGoogle from '../screens/SignUpGoogle';
 import SearchHome from '../screens/HomeScreen/searchHome';
 import Setting from '../screens/Setting/setting';
@@ -49,7 +49,7 @@ const NativeStack: React.FC = () => {
         <Stack.Screen name="SignInGoogle" component={SignInGoogle} options={{ gestureEnabled: false }} />
         <Stack.Screen name="SearchHome" component={SearchHome} options={{ gestureEnabled: false, animation: 'slide_from_bottom' }} />
         <Stack.Screen name="Setting" component={Setting} options={{ gestureEnabled: false }} />
-        <Stack.Screen name="MusicPlayer" component={MusicPlayer} options={{ gestureEnabled: false }} />
+        {/* <Stack.Screen name="MusicPlayer" component={MusicPlayer} options={{ gestureEnabled: false }} /> */}
         <Stack.Screen name="PhoneSignUp" component={PhoneSignUp} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../redux/config/AuthSlice';
 import styles from './style';
 import string from '../../utils/enum';
+import CustomButton from '../../components/CustomButton/customButton';
 
 interface SignupProps {
   navigation: any;
@@ -104,13 +105,13 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity
+      <CustomButton 
+        title={string.register}
+        textStyle={styles.buttonText}
         style={buttonDisabled ? styles.buttonDisabled : styles.buttonContainer}
         disabled={buttonDisabled}
         onPress={handleSignup}
-      >
-        <Text style={styles.buttonText}>{string.register}</Text>
-      </TouchableOpacity>
+      />
     </View>
   );
 };

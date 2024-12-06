@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, ImageStyle } from 'react-native';
+import CustomButton from '../../components/CustomButton/customButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { images } from '../../assets/index';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -26,9 +27,12 @@ const FirstScreen: React.FC<FirstScreenProps> = ({ navigation }) => {
       <Image source={images.spotify} style={styles.image as ImageStyle} />
       <Text style={styles.text}>{string.millionText}</Text>
       <Text style={styles.text}>{string.spotifyText}</Text>
-      <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('Signup')}>
-        <Text style={styles.buttonText}>{string.signUpText}</Text>
-      </TouchableOpacity>
+      <CustomButton 
+        title={string.signUpText}
+        style={styles.buttonContainer}
+        onPress={() => navigation.navigate('Signup')}
+        textStyle={styles.buttonText}
+      />
       {loginOptions.map((option, index) => (
         <TouchableOpacity
           key={index}
@@ -39,9 +43,11 @@ const FirstScreen: React.FC<FirstScreenProps> = ({ navigation }) => {
           <Text style={styles.buttonText1}>{option.label}</Text>
         </TouchableOpacity>
       ))}
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.Text}>{string.logIn}</Text>
-      </TouchableOpacity>
+      <CustomButton 
+        title={string.logIn}
+        onPress={() => navigation.navigate('Login')}
+        textStyle={styles.Text}
+      />
     </View>
   );
 };

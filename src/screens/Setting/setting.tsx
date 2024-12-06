@@ -7,7 +7,8 @@ import { vw, vh } from '../../utils/Dimensions';
 import string from '../../utils/enum';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/config/AuthSlice';
-import styles from './style'
+import styles from './style';
+import CustomButton from '../../components/CustomButton/customButton';
 
 interface SettingProps {
   navigation: any;
@@ -61,9 +62,12 @@ const Setting: React.FC<SettingProps> = ({ navigation }) => {
           ))}
         </View>
         <View style={styles.viewContainer}>
-          <TouchableOpacity style={styles.buttonContainer} onPress={handleLogout}>
-            <Text style={styles.text}>{string.logOut}</Text>
-          </TouchableOpacity>
+          <CustomButton
+            title={string.logOut}
+            style={styles.buttonContainer}
+            onPress={handleLogout}
+            textStyle={styles.text}
+          />
         </View>
       </ScrollView>
 

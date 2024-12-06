@@ -5,17 +5,21 @@ type CustomButtonProps = {
     onPress?: any;
     style?: any;
     disabled?: any;
+    textStyle?: any;
+    title?: any;
 
 }
 const CustomButton: React.FC<CustomButtonProps> = ({
     onPress,
     style,
-    disabled
+    disabled,
+    textStyle,
+    title
 
 }) => {
     return(
         <TouchableOpacity onPress={onPress} style={style} disabled={disabled}>
-            <Text style={style}></Text>
+            <Text style={textStyle}>{title}</Text>
         </TouchableOpacity>
     )
 }

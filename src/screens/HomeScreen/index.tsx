@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Platform, Sc
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { vh, vw } from '../../utils/Dimensions';
 import string from '../../utils/enum';
+import styles from './style';
+import CustomButton from '../../components/CustomButton/customButton';
 
 interface Artist {
   id: number;
@@ -73,16 +75,21 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={openDrawer} style={styles.textContainer}>
-          <Text style={styles.text}>M</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[
+        <CustomButton
+          title='M'
+          onPress={openDrawer}
+          style={styles.textContainer}
+          textStyle={styles.text}
+        />
+        <CustomButton
+          title="All"
+          style={[
             styles.textContainer1,
             { backgroundColor: isAllSelected ? '#269134' : '#1b4721' },
           ]}
-          onPress={handleAllButtonPress} >
-          <Text style={styles.text}>All</Text>
-        </TouchableOpacity>
+          onPress={handleAllButtonPress}
+          textStyle={styles.text}
+        />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.sectionTitle}>{string.artistHeader}</Text>
@@ -105,13 +112,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         />
         <Text style={styles.sectionTitle1}>Popular Albums</Text>
         <FlatList
-        data={albums}
-        renderItem={renderAlbum}
-        keyExtractor={(item) => item.id.toString()}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatListContainer}
-      />
+          data={albums}
+          renderItem={renderAlbum}
+          keyExtractor={(item) => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.flatListContainer}
+        />
       </ScrollView>
 
     </View>
@@ -119,95 +126,3 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  headerContainer: {
-    flexDirection: 'row',
-  },
-  textContainer: {
-    backgroundColor: '#eb6b34',
-    borderRadius: 100,
-    padding: 10,
-    marginLeft: 12,
-  },
-  textContainer1: {
-    backgroundColor: '#269134',
-    borderRadius: 50,
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    marginLeft: 12,
-  },
-  text: {
-    color: 'black',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 20,
-    // marginBottom: 20,
-    marginLeft: 10,
-    color: 'white',
-  },
-  sectionTitle1: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 35,
-    // marginBottom: 20,
-    marginLeft: 10,
-    color: 'white',
-  },
-  flatListContainer: {
-    marginLeft: 12,
-    marginRight: 12,
-    marginTop: 12,
-    marginBottom: 9
-  },
-  artistImage: {
-    width: vw(120),
-    height: vh(120),
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  artistContainer: {
-    marginRight: 15,
-    width: vw(120),
-    alignItems: 'center',
-  },
-  artistName: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  artistGenres: {
-    fontSize: 12,
-    color: 'gray',
-    textAlign: 'center',
-  },
-  albumContainer: {
-    marginRight: 15,
-    alignItems: 'center',
-    width: vw(120),
-  },
-  albumImage: {
-    width: vw(100),
-    height: vh(100),
-    borderRadius: 8,
-    marginBottom: 5,
-    backgroundColor: 'red',
-  },
-  albumTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'white',
-  },
-  albumArtist: {
-    fontSize: 12,
-    color: 'gray',
-    textAlign: 'center',
-  },
-});
