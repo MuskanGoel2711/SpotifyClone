@@ -26,7 +26,7 @@ const Track: React.FC<TrackScreenProps> = ({ route, navigation }) => {
   useEffect(() => {
     fetchData();
   }, []);
-  
+
   const shuffleArray = (array: Track[]) => {
     let shuffledArray = [...array];
     for (let i = shuffledArray.length - 1; i > 0; i--) {
@@ -55,7 +55,7 @@ const Track: React.FC<TrackScreenProps> = ({ route, navigation }) => {
 
   const renderTracks = ({ item }: { item: Track }) => (
     <View style={styles.renderTrack}>
-      <TouchableOpacity onPress={() => navigation.navigate('Player', { song: item, data: tracks })}>
+      <TouchableOpacity onPress={() => navigation.navigate('Player', { song: item, data: tracks, index: tracks.findIndex((track) => track.id === item.id), })}>
         <Image source={{ uri: item.image }} style={styles.trackImage} resizeMode='stretch' />
       </TouchableOpacity>
       <View>
@@ -77,7 +77,7 @@ const Track: React.FC<TrackScreenProps> = ({ route, navigation }) => {
         </TouchableOpacity>
         <Text style={styles.sectionTitle}>Tracks by {artistName}</Text>
         <TouchableOpacity onPress={handleShuffle} style={styles.leftContainer}>
-          <Image source={images.shuffle} style={styles.left}/>
+          <Image source={images.shuffle} style={styles.left} />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -150,8 +150,8 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   timerImage: {
-    width: 20,
-    height: 20,
+    width: vw(20),
+    height: vh(20),
     tintColor: 'white',
   },
 });

@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     googleImage: {
-        width: 100,
-        height: 100,
+        width: vw(100),
+        height: vh(100),
         marginBottom: 40,
     },
-    googleLogo: { width: 24, height: 24},
+    googleLogo: { width: vw(24), height: vh(24)},
     buttonText: { color: '#fff', fontSize: 16, marginLeft: 23  },
 });
 export default styles;

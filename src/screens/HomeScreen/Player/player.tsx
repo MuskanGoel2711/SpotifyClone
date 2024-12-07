@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, FlatList, Animated, Dimensions, Modal } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Image, FlatList, Animated, Dimensions, Modal } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider';
@@ -7,7 +7,7 @@ import { images } from '../../../assets/index';
 import TrackPlayer, { Event, Capability, RepeatMode, State, usePlaybackState, useProgress, useTrackPlayerEvents } from 'react-native-track-player';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import styles from './style'
+import styles from './style';
 
 const { width } = Dimensions.get('window');
 
@@ -26,9 +26,9 @@ interface PlayerProps {
 
 const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
-  const { song, data } = route.params || {};
+  const { song, data, index } = route.params || {};
   const scrollX = useRef(new Animated.Value(0)).current;
-  const [currentSongIndex, setCurrentSongIndex] = useState<number>(0);
+  const [currentSongIndex, setCurrentSongIndex] = useState<number>(index || 0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [repeatMode, setRepeatMode] = useState<'off' | 'track' | 'repeat'>('off');
   const [trackArtist, setTrackArtist] = useState<string | undefined>();
@@ -74,6 +74,7 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
         Capability.Stop,
       ],
     });
+    await TrackPlayer.skip(currentSongIndex);
   };
 
   const togglePlayback = async () => {
@@ -160,6 +161,12 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
     });
   };
 
+  const getItemLayout = (data: any, index: number) => ({
+    length: width,
+    offset: width * index,
+    index,
+  });
+
   const loadFavorites = async () => {
     try {
       const storedFavorites = await AsyncStorage.getItem('favorites');
@@ -220,6 +227,7 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
             ],
             { useNativeDriver: true }
           )}
+          getItemLayout={getItemLayout}
         />
         <View>
           <Slider

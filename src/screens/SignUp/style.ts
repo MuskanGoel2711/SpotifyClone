@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         paddingTop: 20
     },
     input: {
-        height: 50,
+        height: vh(50),
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 10,

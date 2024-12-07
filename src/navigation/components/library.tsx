@@ -111,13 +111,13 @@ const styles = StyleSheet.create({
     favoriteContainer: {
         flexDirection: 'row',
         padding: 16,
-        backgroundColor: '#333',
+        // backgroundColor: '#333',
         borderRadius: 8,
         marginBottom: 12,
     },
     favoriteImage: {
-        width: 50,
-        height: 50,
+        width: vw(50),
+        height: vh(50),
         borderRadius: 8,
         marginRight: 15,
     },
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     artist: {
+        paddingTop: 5,
         fontSize: 14,
         color: '#aaa',
     },

@@ -134,15 +134,15 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     imageInput: {
-        width: vw(20),
-        height: vh(20),
+        width: vw(22),
+        height: vh(22),
         position: 'absolute',
         zIndex: 1,
         top: 26,
         left: 12,
     },
     input: {
-        height: 50,
+        height: vh(50),
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 10,

@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         shadowColor: '#ccc',
         shadowOffset: {
-            width: 5,
-            height: 5,
+            width: vw(5),
+            height: vh(5),
         },
         shadowOpacity: 0.5,
         shadowRadius: 4,

@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     left: 12,
   },
   input: {
-    height: 50,
+    height: vh(50),
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,
