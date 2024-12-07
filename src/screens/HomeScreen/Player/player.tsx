@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, FlatList, Animated, Dimensions } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Image, FlatList, Animated, Dimensions, Modal } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider';
 import { images } from '../../../assets/index';
 import TrackPlayer, { Event, Capability, RepeatMode, State, usePlaybackState, useProgress, useTrackPlayerEvents } from 'react-native-track-player';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styles from './style'
 
@@ -12,7 +13,7 @@ const { width } = Dimensions.get('window');
 
 interface Song {
   id: string;
-  url: string;
+  url?: string;
   title: string;
   artist: string;
   image: string;
@@ -33,6 +34,9 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
   const [trackArtist, setTrackArtist] = useState<string | undefined>();
   const [trackImage, setTrackImage] = useState<string | undefined>();
   const [trackTitle, setTrackTitle] = useState<string | undefined>();
+  const [favorites, setFavorites] = useState<{ [key: string]: any }>({});
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
   const flatListRef = useRef<FlatList>(null);
   const playbackState = usePlaybackState();
   const { position, duration } = useProgress();
@@ -48,6 +52,14 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
       scrollX.removeAllListeners();
       TrackPlayer.reset();
     };
+  }, []);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      const storedFavorites = await loadFavorites();
+      setFavorites(storedFavorites);
+    };
+    fetchFavorites();
   }, []);
 
   const setupPlayer = async () => {
@@ -122,7 +134,7 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
       <Animated.View style={[styles.imageContainer]}>
         <View style={styles.imageWrapper}>
           <Image
-            source={ trackImage ? {uri: trackImage} : require('../../../assets/images/thriller.png')}
+            source={trackImage ? { uri: trackImage } : require('../../../assets/images/thriller.png')}
             style={styles.image}
             resizeMode="stretch"
             onError={(e) => console.error('Image Load Error:', e.nativeEvent.error)}
@@ -145,6 +157,40 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
   const goToPreviousSong = async () => {
     flatListRef.current?.scrollToOffset({
       offset: (currentSongIndex - 1) * width,
+    });
+  };
+
+  const loadFavorites = async () => {
+    try {
+      const storedFavorites = await AsyncStorage.getItem('favorites');
+      return storedFavorites ? JSON.parse(storedFavorites) : {};
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+      return {};
+    }
+  };
+
+  const saveFavorites = async (favorites: { [key: string]: Song }) => {
+    try {
+      await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+    } catch (error) {
+      console.error('Error saving favorites:', error);
+    }
+  };
+
+  const toggleFavorite = (song: Song) => {
+    setFavorites((prevFavorites) => {
+      const updatedFavorites = { ...prevFavorites };
+      if (updatedFavorites[song.id]) {
+        delete updatedFavorites[song.id];
+        setModalMessage('Removed from Favorites');
+      } else {
+        updatedFavorites[song.id] = song;
+        setModalMessage('Added to Favorites');
+      }
+      saveFavorites(updatedFavorites);
+      setShowModal(true);
+      return updatedFavorites;
     });
   };
 
@@ -216,8 +262,19 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
       </View>
       <View style={styles.bottomView}>
         <View style={styles.bottomIconsView}>
-          <TouchableOpacity>
-            <Ionicons name="heart-outline" size={30} color="white" />
+          <TouchableOpacity onPress={() =>
+            toggleFavorite({
+              id: data[currentSongIndex]?.id,
+              title: trackTitle || '',
+              artist: trackArtist || '',
+              image: trackImage || '',
+            })
+          }>
+            <Ionicons
+              name={favorites[data[currentSongIndex]?.id] ? 'heart-outline' : 'heart-dislike-outline'}
+              size={30}
+              color={favorites[data[currentSongIndex]?.id] ? '#FFD369' : 'white'}
+            />
           </TouchableOpacity>
           <TouchableOpacity onPress={changeRepeatMode}>
             <MaterialCommunityIcons
@@ -234,6 +291,21 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
+      <Modal
+        visible={showModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>{modalMessage}</Text>
+            <TouchableOpacity onPress={() => setShowModal(false)}>
+              <Text style={styles.modalButton}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

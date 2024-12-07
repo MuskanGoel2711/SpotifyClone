@@ -22,6 +22,10 @@ const Track: React.FC<TrackScreenProps> = ({ route, navigation }) => {
   const { artistName } = route.params;
   const [tracks, setTracks] = useState<Track[]>([]);
   const [originalTracks, setOriginalTracks] = useState<Track[]>([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   
   const shuffleArray = (array: Track[]) => {
     let shuffledArray = [...array];
@@ -43,10 +47,6 @@ const Track: React.FC<TrackScreenProps> = ({ route, navigation }) => {
       })
       .catch((error) => console.error('Error fetching data:', error));
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleShuffle = () => {
     const shuffledTracks = shuffleArray([...originalTracks]);
