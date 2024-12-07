@@ -41,9 +41,11 @@ const Create: React.FC<HomeScreenProps> = ({ navigation }) => {
         try {
             const storedFavorites = await AsyncStorage.getItem('favorites');
             console.log('Stored favorites:', storedFavorites);
-            const favorites = storedFavorites ? JSON.parse(storedFavorites) as Song[] : [];
-            console.log("favoriteSongsList", favorites);
-            setFavoriteSongs(favorites);
+            const favoritesObject = storedFavorites ? JSON.parse(storedFavorites) : {};
+            const favoritesArray: Song[] = Object.values(favoritesObject);
+            console.log('Parsed favoriteSongsList as array:', favoritesArray);
+    
+            setFavoriteSongs(favoritesArray);
         } catch (error) {
             console.error('Error loading favorite songs:', error);
         }
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
     favoriteContainer: {
         flexDirection: 'row',
         padding: 16,
-        // backgroundColor: '#333',
+        backgroundColor: '#333',
         borderRadius: 8,
         marginBottom: 12,
     },
