@@ -43,7 +43,7 @@ const Create: React.FC<HomeScreenProps> = ({ navigation }) => {
             console.log('Stored favorites:', storedFavorites);
             const favoritesObject = storedFavorites ? JSON.parse(storedFavorites) : {};
             const favoritesArray: Song[] = Object.values(favoritesObject);
-            console.log('Parsed favoriteSongsList as array:', favoritesArray);
+            console.log('Parsed favoriteSongsList: ', favoritesArray);
     
             setFavoriteSongs(favoritesArray);
         } catch (error) {

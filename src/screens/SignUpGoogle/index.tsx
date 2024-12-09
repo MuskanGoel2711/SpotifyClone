@@ -8,6 +8,7 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import string from '../../utils/enum';
 import { useDispatch } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
 import { login } from '../../redux/config/AuthSlice';
 
 interface SignInGoogleProps {
@@ -40,10 +41,12 @@ const SignInGoogle: React.FC<SignInGoogleProps> = ({ navigation }) => {
             await auth().signInWithCredential(googleCredentials);
             // await AsyncStorage.setItem('isLoggedIn', 'true');
             dispatch(login())
-            navigation.reset({
-                index: 0,
-                routes: [{ name: 'HomeScreen' }],
-            });
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'HomeScreen' }],
+                })
+            );
         } catch (error: any) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 console.log('User cancelled the login flow');

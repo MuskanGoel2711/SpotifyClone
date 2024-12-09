@@ -8,6 +8,7 @@ import auth from '@react-native-firebase/auth';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import string from '../../utils/enum';
 import { useDispatch } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
 import { login } from '../../redux/config/AuthSlice';
 import CustomButton from '../../components/CustomButton/customButton';
 
@@ -53,10 +54,12 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
         console.log('user', userCredential.user);
         dispatch(login())
         // await AsyncStorage.setItem('isLoggedIn', 'true');
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'HomeScreen' }],
-        });
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'HomeScreen' }],
+          })
+        );
       } catch (error: any) {
         if (error.code === 'auth/user-not-found') {
           setErrorMessage('User not found. Please check your email.');
@@ -119,7 +122,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
         {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
       </View>
       <CustomButton
-        title= {string.logIn}
+        title={string.logIn}
         style={buttonDisabled ? styles.buttonDisabled : styles.buttonContainer}
         disabled={buttonDisabled}
         onPress={handleLogin}

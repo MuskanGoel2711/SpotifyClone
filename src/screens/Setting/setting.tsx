@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { images } from '../../assets/index';
 import { vw, vh } from '../../utils/Dimensions';
@@ -21,10 +22,12 @@ const Setting: React.FC<SettingProps> = ({ navigation }) => {
   const handleLogout = async () => {
     dispatch(logout());
     // await AsyncStorage.removeItem('isLoggedIn');
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'FirstScreen' }],
-    });
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'FirstScreen' }],
+      })
+    );
   };
 
   const settingOptions = [

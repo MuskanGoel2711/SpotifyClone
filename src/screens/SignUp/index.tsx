@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
 import { login } from '../../redux/config/AuthSlice';
 import styles from './style';
 import string from '../../utils/enum';
@@ -49,10 +50,12 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
         console.log('User account created & signed in:', userCredential.user);
         dispatch(login())
         // await AsyncStorage.setItem('isLoggedIn', 'true');
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'HomeScreen' }],
-        });
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'HomeScreen' }],
+          })
+        );
       } catch (error: any) {
         if (error.code === 'auth/email-already-in-use') {
           console.log('That email address is already in use!');
@@ -105,7 +108,7 @@ const Signup: React.FC<SignupProps> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <CustomButton 
+      <CustomButton
         title={string.register}
         textStyle={styles.buttonText}
         style={buttonDisabled ? styles.buttonDisabled : styles.buttonContainer}
