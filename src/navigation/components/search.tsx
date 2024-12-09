@@ -134,12 +134,13 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     imageInput: {
-        width: vw(22),
-        height: vh(22),
+        width: vw(20),
+        height: vh(20),
         position: 'absolute',
         zIndex: 1,
-        top: 23,
+        top: 24,
         left: 12,
+        alignSelf: 'auto'
     },
     input: {
         height: vh(50),
