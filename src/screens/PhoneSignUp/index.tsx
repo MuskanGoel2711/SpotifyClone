@@ -36,7 +36,7 @@ const PhoneSignUp: React.FC<PhoneSignUpProps> = ({ navigation }) => {
                 <OtpScreen confirm={confirm} />
             ) : (
                 <TouchableOpacity
-                    onPress={() => signInWithPhoneNumber('+919255265660')}
+                    onPress={() => signInWithPhoneNumber('')}
                     style={styles.buttonContainer}
                 >
                     <Text style={styles.buttonText}>Phone Number Sign In</Text>
