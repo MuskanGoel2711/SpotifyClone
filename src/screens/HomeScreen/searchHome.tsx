@@ -72,7 +72,7 @@ const SearchHome: React.FC<SearchHomeProps> = ({ navigation }) => {
         <Image source={images.left} style={styles.left} />
       </TouchableOpacity>
       <View>
-        <Image source={images.search} style={styles.imageInput} />
+        <Image source={images.search} style={styles.imageInput} resizeMode='contain'/>
         <CustomInput
           placeholder={string.searchText}
           value={artist}
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     height: vh(20),
     position: 'absolute',
     zIndex: 1,
-    top: 26,
+    top: 23,
     left: 12,
   },
   input: {

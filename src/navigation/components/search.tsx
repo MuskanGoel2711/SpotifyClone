@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         height: vh(22),
         position: 'absolute',
         zIndex: 1,
-        top: 26,
+        top: 23,
         left: 12,
     },
     input: {
