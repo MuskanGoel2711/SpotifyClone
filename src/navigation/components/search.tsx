@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, TextInput, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { vh, vw } from '../../utils/Dimensions';
 import { images } from '../../assets/index';
@@ -24,7 +24,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     const insets = useSafeAreaInsets();
 
     const fetchData = () => {
-        fetch('http://localhost:3000/mockapi')
+        fetch(Platform.OS === 'android' ? 'http://10.0.2.2:3000/mockapi' : 'http://localhost:3000/mockapi')
             .then((response) => response.json())
             .then((response) => {
                 setFilteredArtists(response?.data?.artists || []);
