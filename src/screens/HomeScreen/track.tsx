@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, Platform } f
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { vw, vh } from '../../utils/Dimensions';
 import { images } from '../../assets/index';
+import CustomImage from '../../components/CustomImage/customImage';
 
 interface Track {
   id: number;
@@ -55,9 +56,7 @@ const Track: React.FC<TrackScreenProps> = ({ route, navigation }) => {
 
   const renderTracks = ({ item }: { item: Track }) => (
     <View style={styles.renderTrack}>
-      <TouchableOpacity onPress={() => navigation.navigate('Player', { song: item, data: tracks, index: tracks.findIndex((track) => track.id === item.id), })}>
-        <Image source={{ uri: item.image }} style={styles.trackImage} resizeMode='stretch' />
-      </TouchableOpacity>
+      <CustomImage onPress={() => navigation.navigate('Player', { song: item, data: tracks, index: tracks.findIndex((track) => track.id === item.id), })} source={{ uri: item.image }} style={styles.trackImage}/>
       <View>
         <Text style={styles.trackTitle}>{item.title}</Text>
         <Text style={styles.trackArtist}>{item.artist}</Text>
@@ -100,7 +99,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     marginBottom: 15,
-    justifyContent: 'space-between'
+    alignItems: 'center',
+    marginRight: 60
   },
   leftContainer: {},
   left: {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     textAlign: 'center',
-    // width: '100%',
+    width: '100%',
   },
   renderTrack: {
     flexDirection: 'row',
@@ -133,10 +133,10 @@ const styles = StyleSheet.create({
   },
   trackArtist: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: 200,
     marginLeft: 12,
     marginTop: 12,
-    color: 'white',
+    color: 'gray',
   },
   trackDuration: {
     fontSize: 14,

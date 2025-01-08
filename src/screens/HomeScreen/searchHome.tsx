@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList,ScrollView, Image, TouchableOpacity, Platform, Dimensions} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { vh, vw } from '../../utils/Dimensions';
 import { images } from '../../assets/index';
 import CustomInput from '../../components/CustomInput/input';
 import string from '../../utils/enum';
+import CustomImage from '../../components/CustomImage/customImage';
 
 interface Artist {
   id: number;
@@ -28,6 +29,8 @@ const SearchHome: React.FC<SearchHomeProps> = ({ navigation }) => {
   const [artist, setArtist] = useState<string>('');
   const [artists, setArtists] = useState<Artist[]>([]);
   const insets = useSafeAreaInsets();
+
+  
 
   const fetchData = async () => {
     try {
@@ -58,9 +61,7 @@ const SearchHome: React.FC<SearchHomeProps> = ({ navigation }) => {
 
   const renderArtist = ({ item }: { item: Artist }) => (
     <View style={styles.artistContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate('album', { artistName: item.name })}>
-        <Image source={{ uri: item.coverImage }} style={styles.artistImage} resizeMode="stretch" />
-      </TouchableOpacity>
+      <CustomImage onPress={() => navigation.navigate('album', { artistName: item.name })} source={{ uri: item.coverImage }} />
       <Text style={styles.artistName}>{item.name}</Text>
       <Text style={styles.artistGenres}>{item.genres.join(', ')}</Text>
     </View>
@@ -68,29 +69,37 @@ const SearchHome: React.FC<SearchHomeProps> = ({ navigation }) => {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.leftContainer}>
-        <Image source={images.left} style={styles.left} />
-      </TouchableOpacity>
+      <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+        <View style={styles.imageViewContainer}>
+          <View style={styles.imageContainer}>
+            <Image source={images.search} style={styles.icon} resizeMode='contain' />
+          </View>
+          <View style={styles.input}>
+            <CustomInput
+              placeholder={string.searchText}
+              value={artist}
+              onChangeText={handleSearch}
+              placeholderTextColor="white"
+            />
+          </View>
+        </View>
+        <TouchableOpacity onPress={()=> navigation.replace('Search')}>
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
       <View>
-        <Image source={images.search} style={styles.imageInput} resizeMode='contain'/>
-        <CustomInput
-          placeholder={string.searchText}
-          value={artist}
-          onChangeText={handleSearch}
-          style={styles.input}
-          placeholderTextColor="black"
+        <Text style={styles.sectionTitle}>{string.artistHeader}</Text>
+        <FlatList
+          data={filteredArtists}
+          renderItem={renderArtist}
+          keyExtractor={(item) => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.flatListContainer}
+          ListEmptyComponent={() => <Text style={styles.emptyText}>Empty List</Text>}
         />
       </View>
-      <Text style={styles.sectionTitle}>{string.artistHeader}</Text>
-      <FlatList
-        data={filteredArtists}
-        renderItem={renderArtist}
-        keyExtractor={(item) => item.id.toString()}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatListContainer}
-        ListEmptyComponent={() => <Text style={styles.emptyText}>Empty List</Text>}
-      />
+
     </View>
   );
 };
@@ -100,24 +109,27 @@ export default SearchHome;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: "black"
   },
   headerContainer: {
     flexDirection: 'row',
     paddingBottom: 12,
-    paddingHorizontal: 12,
   },
-  leftContainer: {},
-  left: {
-    width: vw(30),
-    height: vh(30),
+  imageViewContainer: { flexDirection: 'row', borderRadius: 5, borderWidth: 1, margin: 10, backgroundColor: '#5e5e5e', width: 300 },
+  imageContainer: { justifyContent: 'center', alignItems: 'center', padding: 10, },
+  icon: {
+    width: vw(15),
+    height: vh(15),
+    alignSelf: 'auto',
     tintColor: 'white',
   },
+  input: { justifyContent: 'center', width: "80%", backgroundColor: '#5e5e5e', },
   searchText: {
     color: 'white',
     fontSize: 22,
     fontWeight: 'bold',
     paddingLeft: 15,
+
   },
   textContainer: {
     backgroundColor: '#eb6b34',
@@ -133,28 +145,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginLeft: 10,
     color: 'white',
-  },
-  imageInput: {
-    width: vw(20),
-    height: vh(20),
-    position: 'absolute',
-    zIndex: 1,
-    top: 24,
-    left: 12,
-    alignSelf: 'auto'
-  },
-  input: {
-    height: vh(50),
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    fontSize: 16,
-    marginBottom: 10,
-    backgroundColor: 'white',
-    marginTop: 10,
-    color: 'black',
-    position: 'relative',
-    paddingLeft: 40,
   },
   flatListContainer: {
     paddingTop: 15,
@@ -180,6 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'gray',
     textAlign: 'center',
+    marginBottom: 50
   },
   emptyText: {
     color: 'white',

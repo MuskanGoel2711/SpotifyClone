@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     },
     textContainer: {
       backgroundColor: '#eb6b34',
-      borderRadius: 100,
+      borderRadius: 50,
       padding: 10,
       marginLeft: 12,
     },
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     sectionTitle1: {
       fontSize: 18,
       fontWeight: 'bold',
-      marginTop: 35,
+      marginTop: 15,
       // marginBottom: 20,
       marginLeft: 10,
       color: 'white',
@@ -46,6 +46,10 @@ const styles = StyleSheet.create({
       marginTop: 12,
       marginBottom: 9
     },
+    recommendedToday: {
+      width: 120,
+      height: 120
+    },
     artistImage: {
       width: vw(120),
       height: vh(120),
@@ -55,7 +59,6 @@ const styles = StyleSheet.create({
     artistContainer: {
       marginRight: 15,
       width: vw(120),
-      alignItems: 'center',
     },
     artistName: {
       fontSize: 14,
@@ -67,17 +70,38 @@ const styles = StyleSheet.create({
       color: 'gray',
       textAlign: 'center',
     },
+    albumContainerFirst: {
+      marginHorizontal: 10,
+      marginTop: 20,
+      alignItems: 'center',
+      width: vw(170),
+      flexDirection: 'row',
+      borderRadius: 8,
+      backgroundColor: 'gray'
+    },
     albumContainer: {
       marginRight: 15,
-      alignItems: 'center',
       width: vw(120),
     },
+    albumContainer1: {
+      marginBottom: 20,
+      width: vw(120),
+    },
+    albumContainer2:{borderRadius: 23, margin: 12},
+    textContainer2: {position: 'absolute',marginLeft: 22},
     albumImage: {
-      width: vw(100),
-      height: vh(100),
+      width: vw(350),
+      height: vh(320),
       borderRadius: 8,
       marginBottom: 5,
-      backgroundColor: 'red',
+      // backgroundColor: 'red',
+    },
+    albumImageFirst: {
+      width: vw(60),
+      height: vh(60),
+      borderRadius: 8,
+      marginRight: 10
+      // backgroundColor: 'red',
     },
     albumTitle: {
       fontSize: 14,

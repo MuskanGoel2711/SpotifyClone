@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         paddingVertical: 10,
         marginTop: 15,
-        width: '75%'
+        width: '75%',
+        alignItems: 'center',
     },
     image1: {
         width: vw(20),

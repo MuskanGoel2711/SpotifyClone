@@ -5,6 +5,7 @@ import { vh, vw } from '../../utils/Dimensions';
 import string from '../../utils/enum';
 import styles from './style';
 import CustomButton from '../../components/CustomButton/customButton';
+import CustomImage from '../../components/CustomImage/customImage';
 
 interface Artist {
   id: number;
@@ -46,9 +47,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const renderArtist = ({ item }: { item: Artist }) => (
     <View style={styles.artistContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate('album', { artistName: item.name })}>
-        <Image source={{ uri: item.coverImage }} style={styles.artistImage} resizeMode="stretch" />
-      </TouchableOpacity>
+      <CustomImage onPress={() => navigation.navigate('album', { artistName: item.name })} source={{ uri: item.coverImage }} />
       <Text style={styles.artistName}>{item.name}</Text>
       <Text style={styles.artistGenres}>{item.genres.join(', ')}</Text>
     </View>
@@ -56,11 +55,50 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const renderAlbum = ({ item }: { item: Album }) => (
     <View style={styles.albumContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate('track', { artistName: item.artist })}>
-        <Image source={{ uri: item.coverImage }} style={styles.albumImage} resizeMode="stretch" />
-      </TouchableOpacity>
+      <CustomImage onPress={() => navigation.navigate('track', { artistName: item.artist })} source={{ uri: item.coverImage }} />
       <Text style={styles.albumTitle}>{item.title}</Text>
       <Text style={styles.albumArtist}>{item.artist}</Text>
+    </View>
+  );
+  const renderAlbumCircle = ({ item }: { item: Album }) => (
+    <View style={styles.albumContainer}>
+      <CustomImage onPress={() => navigation.navigate('track', { artistName: item.artist })} source={{ uri: item.coverImage }} style={{borderRadius: 100}}/>
+      <Text style={styles.albumTitle}>{item.title}</Text>
+      <Text style={styles.albumArtist}>{item.artist}</Text>
+    </View>
+  );
+
+  const renderAlbumDifferently = ({ item }: { item: Album }) => (
+    <TouchableOpacity onPress={() => navigation.navigate('track', { artistName: item.artist })}>
+      <View style={styles.albumContainerFirst}>
+
+        <Image source={{ uri: item.coverImage }} style={styles.albumImageFirst} resizeMode='stretch' />
+
+        <View>
+          <Text style={styles.albumTitle}>{item.title}</Text>
+          <Text style={[styles.albumArtist, { color: 'white' }]}>{item.artist}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const renderAlbumToday = ({ item }: { item: Album }) => (
+    <View style={styles.albumContainer1}>
+      <CustomImage onPress={() => navigation.navigate('track', { artistName: item.artist })} source={{ uri: item.coverImage }} style={styles.recommendedToday} />
+      <Text style={styles.albumTitle}>{item.title}</Text>
+      <Text style={styles.albumArtist}>{item.artist}</Text>
+    </View>
+  );
+
+  const renderAlbumVertically = ({ item }: { item: Album }) => (
+    <View style={styles.albumContainer2}>
+      <TouchableOpacity onPress={() => navigation.navigate('track', { artistName: item.artist })}>
+        <Image source={{ uri: item.coverImage }} style={styles.albumImage} resizeMode='stretch' />
+      </TouchableOpacity>
+      <View style={styles.textContainer2}>
+        <Text style={[styles.albumTitle, { fontSize: 18, color: 'black' }]}>{item.title}</Text>
+        <Text style={styles.albumArtist}>{item.artist}</Text>
+      </View>
     </View>
   );
 
@@ -92,6 +130,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <FlatList
+          data={albums}
+          renderItem={renderAlbumDifferently}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+        />
         <Text style={styles.sectionTitle}>{string.artistHeader}</Text>
         <FlatList
           data={artists}
@@ -119,8 +163,31 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.flatListContainer}
         />
+        <Text style={styles.sectionTitle1}>Charts</Text>
+        <FlatList
+          data={albums}
+          renderItem={renderAlbumCircle}
+          keyExtractor={(item) => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.flatListContainer}
+        />
+        <Text style={styles.sectionTitle1}>Recommended for Today</Text>
+        <FlatList
+          data={albums}
+          renderItem={renderAlbumToday}
+          keyExtractor={(item) => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.flatListContainer}
+        />
+        <Text style={styles.sectionTitle1}>Trending Albums for You</Text>
+        <FlatList
+          data={albums}
+          renderItem={renderAlbumVertically}
+          keyExtractor={(item) => item.id.toString()}
+        />
       </ScrollView>
-
     </View>
   );
 };

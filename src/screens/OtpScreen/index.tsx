@@ -12,7 +12,7 @@ const OtpScreen: React.FC<OtpScreenProps> = (props) => {
 
     const confirmCode = async () => {
         try {
-            await props.confirm(code);
+            await props.confirm();
         } catch (error) {
             console.log('Invalid code.');
         }
@@ -29,7 +29,7 @@ const OtpScreen: React.FC<OtpScreenProps> = (props) => {
                 placeholderTextColor="#ccc"
             />
             <TouchableOpacity onPress={confirmCode} style={styles.buttonContainer}>
-                <Text style={styles.buttonText}>Phone Number Sign In</Text>
+                <Text style={styles.buttonText}>enter otp</Text>
             </TouchableOpacity>
         </View>
     );

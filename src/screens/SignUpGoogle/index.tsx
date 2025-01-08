@@ -64,12 +64,12 @@ const SignInGoogle: React.FC<SignInGoogleProps> = ({ navigation }) => {
         <View style={[styles.container, { paddingTop: insets.top }]}>
             <View style={styles.viewContainer}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.leftContainer}>
-                    <Image source={images.left} style={styles.left} />
+                    <Image source={images.left} style={styles.left} resizeMode='contain'/>
                 </TouchableOpacity>
                 <Text style={styles.text}>{string.signIn}</Text>
             </View>
             <View style={{ flex: 0.7, alignItems: 'center', justifyContent: 'center' }}>
-                <Image source={images.google} style={styles.googleImage} />
+                <Image source={images.google} style={styles.googleImage} resizeMode='contain'/>
                 <TouchableOpacity style={styles.buttonContainer} onPress={handleSignup}>
                     <Image source={images.google} style={styles.googleLogo} />
                     <Text style={styles.buttonText}>{string.signInGoogle}</Text>

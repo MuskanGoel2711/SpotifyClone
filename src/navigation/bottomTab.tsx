@@ -1,25 +1,37 @@
 import React from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import { Image } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import Premium from './components/premium';
 import Create from './components/library';
 import Search from './components/search';
 import { images } from '../assets/index';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import SearchHome from '../screens/HomeScreen/searchHome';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 type TabParamList = {
     Home: undefined;
     Search: undefined;
     "Your Library": undefined;
     Premium: undefined;
+    SearchHome: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
+const SearchStack = createNativeStackNavigator();
 
 const BottomTab: React.FC = () => {
+    const SearchStackNavigator = () => {
+        return (
+            <SearchStack.Navigator screenOptions={{ headerShown: false }}>
+                <SearchStack.Screen name="Search" component={Search} options={{ gestureEnabled: false, animation: 'fade' }} />
+                <SearchStack.Screen name="SearchHome" component={SearchHome} options={{ gestureEnabled: false, animation: 'fade' }} />
+            </SearchStack.Navigator>
+        );
+    };
     return (
         <Tab.Navigator screenOptions={{
-            headerShown: false, 
+            headerShown: false,
             tabBarStyle: { backgroundColor: 'black' },
             tabBarInactiveTintColor: '#FFFFFF',
         }}>
@@ -36,20 +48,19 @@ const BottomTab: React.FC = () => {
                             />
                         );
                     },
-                }} />
+                }} 
+            />
 
             <Tab.Screen
                 name="Search"
-                component={Search}
+                component={SearchStackNavigator}
                 options={() => ({
                     title: 'Search',
                     tabBarIcon: ({ size, color }: { size: number; color: string }) => (
-                        <TouchableOpacity>
-                            <Image
-                                style={{ width: 25, height: 25, tintColor: color }}
-                                source={images.search}
-                            />
-                        </TouchableOpacity>
+                        <Image
+                            style={{ width: 23, height: 23, tintColor: color }}
+                            source={images.search}
+                        />
                     ),
                 })}
             />
@@ -61,27 +72,13 @@ const BottomTab: React.FC = () => {
                     tabBarIcon: ({ size, color }: { size: number, color: string }) => {
                         return (
                             <Image
-                                style={{ width: size, height: size, tintColor: color }}
+                                style={{ width: 32, height: 32, tintColor: color }}
                                 source={images.library}
                             />
                         );
                     },
                 }}
             />
-            <Tab.Screen
-                name="Premium"
-                component={Premium}
-                options={{
-                    title: 'Premium',
-                    tabBarIcon: ({ size, color }: { size: number, color: string }) => {
-                        return (
-                            <Image
-                                style={{ width: size, height: size, tintColor: color }}
-                                source={images.premium}
-                            />
-                        );
-                    },
-                }} />
         </Tab.Navigator>
     )
 }

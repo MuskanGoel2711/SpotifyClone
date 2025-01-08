@@ -1,10 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, TextInput, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Modal, TextInput, ScrollView, Dimensions, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { vh, vw } from '../../utils/Dimensions';
 import { images } from '../../assets/index';
 import CustomInput from '../../components/CustomInput/input';
 import string from '../../utils/enum';
+
+const renderData = [
+    { id: 1, name: '2024 in Music', backgroundColor: 'green' },
+    { id: 2, name: '2024 in Podcasts', backgroundColor: 'pink' },
+    { id: 3, name: 'Made For You', backgroundColor: 'blue' },
+    { id: 4, name: 'New Releases',backgroundColor: 'green' },
+    { id: 5, name: 'Hindi',backgroundColor: 'pink' },
+    { id: 6, name: 'Punjabi',backgroundColor: 'blue' },
+    { id: 7, name: 'Tamil',backgroundColor: 'orange' },
+    { id: 8, name: 'Telugu',backgroundColor: 'gray' },
+    { id: 9, name: 'Podcasts Charts', backgroundColor: 'purple' },
+    { id: 10, name: 'Video Podcasts', backgroundColor: 'orange' },
+    { id: 11, name: 'Punk', backgroundColor: 'blue' },
+    { id: 12, name: 'Blues', backgroundColor: 'pink' }
+]
+
+const data2 = [
+    { id: 1, name: 'Music', backgroundColor: 'pink' },
+    { id: 2, name: 'Podcasts', backgroundColor: 'green' },
+    { id: 3, name: 'Live Events',backgroundColor: 'purple' },
+    { id: 4, name: 'Home of I-Pop',backgroundColor: 'blue' }
+]
 
 interface Artist {
     id: number;
@@ -17,7 +39,7 @@ interface HomeScreenProps {
     navigation: any;
 }
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+const SearchScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     const [filteredArtists, setFilteredArtists] = useState<Artist[]>([]);
     const [artist, setArtist] = useState<string>('');
     const [artists, setArtists] = useState<Artist[]>([]);
@@ -51,11 +73,24 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
     const renderArtist = ({ item }: { item: Artist }) => (
         <View style={styles.artistContainer}>
-            <TouchableOpacity onPress={() => navigation.navigate('album', { artistName: item.name })}>
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('album', { artistName: item.name });
+            }}>
                 <Image source={{ uri: item.coverImage }} style={styles.artistImage} resizeMode="stretch" />
             </TouchableOpacity>
             <Text style={styles.artistName}>{item.name}</Text>
             <Text style={styles.artistGenres}>{item.genres.join(', ')}</Text>
+        </View>
+    );
+
+    const renderItem = ({ item }: { item: { id: string; name: string, backgroundColor: any } }) => (
+        <View style={[styles.box,{backgroundColor: item.backgroundColor}]}>
+            <Text style={styles.text1}>{item.name}</Text>
+        </View>
+    );
+    const renderItem1 = ({ item }: { item: { id: string; name: string, backgroundColor: any } }) => (
+        <View style={[styles.box, { height: Dimensions.get('window').width / 2 - 120,backgroundColor: item.backgroundColor}]}>
+            <Text style={styles.text1}>{item.name}</Text>
         </View>
     );
 
@@ -64,7 +99,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     };
 
     const handleFocusSearch = () => {
-        navigation.navigate('SearchHome');
+        navigation.navigate('SearchHome')
     };
 
     return (
@@ -86,21 +121,37 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     placeholderTextColor="black"
                 />
             </View>
-            <Text style={styles.sectionTitle}>{string.artistHeader}</Text>
-            <FlatList
-                data={filteredArtists}
-                renderItem={renderArtist}
-                keyExtractor={(item) => item.id.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.flatListContainer}
-                ListEmptyComponent={() => <Text style={styles.emptyText}>Empty List</Text>}
-            />
+            <ScrollView>
+                <Text style={styles.sectionTitle}>Start Browsing</Text>
+                <FlatList
+                    data={data2}
+                    renderItem={renderItem1}
+                    keyExtractor={(item) => item.id.toString()}
+                    numColumns={2}
+                />
+                <Text style={styles.sectionTitle}>{string.artistHeader}</Text>
+                <FlatList
+                    data={filteredArtists}
+                    renderItem={renderArtist}
+                    keyExtractor={(item) => item.id.toString()}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.flatListContainer}
+                    ListEmptyComponent={() => <Text style={styles.emptyText}>Empty List</Text>}
+                />
+                <Text style={styles.sectionTitle}>Browse all</Text>
+                <FlatList
+                    data={renderData}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    numColumns={2}
+                />
+            </ScrollView>
         </View>
     );
 };
 
-export default HomeScreen;
+export default SearchScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -125,6 +176,11 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'black',
+    },
+    text1: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 18
     },
     sectionTitle: {
         fontSize: 18,
@@ -169,6 +225,7 @@ const styles = StyleSheet.create({
         marginRight: 15,
         width: vw(120),
         alignItems: 'center',
+        marginLeft: 10
     },
     artistName: {
         fontSize: 14,
@@ -186,4 +243,23 @@ const styles = StyleSheet.create({
         padding: 12,
         fontSize: 20,
     },
+    box: {
+        flex: 1,
+        margin: 10,
+        backgroundColor: '#f0a500',
+        height: Dimensions.get('window').width / 2 - 100,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        borderRadius: 10,
+        padding: 12
+    },
+    imageViewContainer: { flexDirection: 'row', borderRadius: 5, borderWidth: 1, margin: 10, backgroundColor: '#5e5e5e', width: 300 },
+    imageContainer: { justifyContent: 'center', alignItems: 'center', padding: 10, },
+    icon: {
+        width: vw(15),
+        height: vh(15),
+        alignSelf: 'auto',
+        tintColor: 'white',
+    },
+    input1: { justifyContent: 'center', width: "80%", backgroundColor: '#5e5e5e', },
 });

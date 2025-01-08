@@ -7,6 +7,7 @@ import { images } from '../../../assets/index';
 import TrackPlayer, { Event, Capability, RepeatMode, State, usePlaybackState, useProgress, useTrackPlayerEvents } from 'react-native-track-player';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Share from 'react-native-share';
 import styles from './style';
 
 const { width } = Dimensions.get('window');
@@ -50,7 +51,6 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
     });
     return () => {
       scrollX.removeAllListeners();
-      TrackPlayer.reset();
     };
   }, []);
 
@@ -75,17 +75,28 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
       ],
     });
     await TrackPlayer.skip(currentSongIndex);
+    const track = data[currentSongIndex];
+    await AsyncStorage.setItem(
+      'currentTrack',
+      JSON.stringify({ id: track.id, title: track.title, artist: track.artist, image: track.image })
+    );
   };
 
   const togglePlayback = async () => {
     const currentTrack = await TrackPlayer.getState();
+    console.log("current track", currentTrack)
     if (currentTrack !== null) {
+      console.log("1234567845678")
       if (currentTrack === State.Playing) {
         await TrackPlayer.pause();
       } else if (currentTrack === State.Paused || currentTrack === State.Ready) {
         await TrackPlayer.play();
+      } else {
+        console.log("error")
       }
     }
+    const isPlaying = currentTrack === State.Playing;
+    await AsyncStorage.setItem('isPlaying', JSON.stringify(isPlaying));
   };
 
   const repeatIcon = (): string => {
@@ -124,6 +135,10 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
           setTrackArtist(artist);
           setTrackImage(image);
           setTrackTitle(title);
+          await AsyncStorage.setItem(
+            'currentTrack',
+            JSON.stringify({ id: track.id, title: track.title, artist: track.artist, image: track.image })
+          );
         }
 
       }
@@ -199,6 +214,21 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
       setShowModal(true);
       return updatedFavorites;
     });
+  };
+
+  const shareSong = async (song: Song) => {
+    try {
+      const options = {
+        title: `Check out this song: ${song.title}`,
+        message: `I'm listening to "${song.title}" by ${song.artist}. Check it out!`,
+        url: song.url || '',
+        type: 'audio/mpeg', // Adjust type based on the file format
+      };
+  
+      await Share.open(options);
+    } catch (error) {
+      console.error('Error sharing song:', error);
+    }
   };
 
   return (
@@ -291,7 +321,7 @@ const Player: React.FC<PlayerProps> = ({ route, navigation }) => {
               color={repeatMode !== 'off' ? '#FFD369' : 'white'}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { }}>
+          <TouchableOpacity onPress={() => shareSong(data[currentSongIndex])}>
             <Ionicons name="share-outline" size={30} color="white" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { }}>

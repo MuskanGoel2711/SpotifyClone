@@ -8,35 +8,45 @@ type CustomDrawerProps = {
   navigation: any;
 };
 
+type DrawerItemProps = {
+  onPress: () => void;
+  imageSource: any;
+  label: string;
+}
+
+const DrawerItem: React.FC<DrawerItemProps> = ({ onPress, imageSource, label }) => (
+  <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+    <Image source={imageSource} style={styles.image} />
+    <Text style={styles.text}>{label}</Text>
+  </TouchableOpacity>
+);
+
 
 const CustomDrawer: React.FC<CustomDrawerProps> = ({ navigation }) => {
   const insets = useSafeAreaInsets();
-  const onSetting = () => {
-    navigation.navigate('Setting');
-  }
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
-      <View></View>
       <View style={styles.sideContainer}>
-        <TouchableOpacity
-          style={styles.buttonContainer}
+        <DrawerItem
           onPress={() => navigation.navigate('FirstScreen')}
-        >
-          <Image source={images.addAccount} style={styles.image} />
-          <Text style={styles.text}>Add account</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Image source={images.thunder} style={styles.image} />
-          <Text style={styles.text}>What's new</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Image source={images.history} style={styles.image} />
-          <Text style={styles.text}>Listening history</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer} onPress={onSetting}>
-          <Image source={images.setting} style={styles.image} />
-          <Text style={styles.text}>Settings and privacy</Text>
-        </TouchableOpacity>
+          imageSource={images.addAccount}
+          label="Add account"
+        />
+        <DrawerItem
+          onPress={() => { }}
+          imageSource={images.thunder}
+          label="What's new"
+        />
+        <DrawerItem
+          onPress={() => { }}
+          imageSource={images.history}
+          label="Listening history"
+        />
+        <DrawerItem
+          onPress={() => navigation.navigate('Setting')}
+          imageSource={images.setting}
+          label="Settings and privacy"
+        />
       </View>
     </View>
   );
@@ -55,6 +65,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     padding: 10,
+    alignItems: 'center'
   },
   image: {
     width: vw(28),

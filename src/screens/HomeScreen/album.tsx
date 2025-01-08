@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Platform } f
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { vw, vh } from '../../utils/Dimensions';
 import { images } from '../../assets/index';
+import CustomImage from '../../components/CustomImage/customImage';
 
 interface Album {
   id: number;
@@ -38,9 +39,7 @@ const Album: React.FC<AlbumScreenProps> = ({ route, navigation }) => {
 
   const renderAlbum = ({ item }: { item: Album }) => (
     <View style={styles.albumContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate('track', { artistName: item.artist })}>
-        <Image source={{ uri: item.coverImage }} style={styles.albumImage} resizeMode="stretch" />
-      </TouchableOpacity>
+      <CustomImage onPress={() => navigation.navigate('track', { artistName: item.artist })} source={{ uri: item.coverImage }} resizeMode="contain" />
       <Text style={styles.albumTitle}>{item.title}</Text>
       <Text style={styles.albumArtist}>{item.artist}</Text>
     </View>
@@ -76,6 +75,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     marginBottom: 30,
+    marginRight: 30,
+    alignItems: 'center'
   },
   left: {
     width: vw(30),
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     height: vh(100),
     borderRadius: 8,
     marginBottom: 5,
-    backgroundColor: 'red',
+    backgroundColor: 'black',
   },
   albumTitle: {
     fontSize: 14,

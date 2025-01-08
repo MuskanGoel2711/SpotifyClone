@@ -8,7 +8,7 @@ import { vh, vw } from '../../utils/Dimensions';
 import string from '../../utils/enum';
 
 interface PhoneSignUpProps {
-    navigation: any
+    navigation: any;
 }
 
 const PhoneSignUp: React.FC<PhoneSignUpProps> = ({ navigation }) => {
@@ -23,7 +23,9 @@ const PhoneSignUp: React.FC<PhoneSignUpProps> = ({ navigation }) => {
             console.error('Error signing in with phone number:', error);
         }
     }
-
+    const onConfirm = () => {
+        navigation.navigate('HomeScreen')
+    }
     return (
         <View style={[styles.container, { paddingTop: insets.top }]}>
             <View style={styles.viewContainer}>
@@ -33,10 +35,10 @@ const PhoneSignUp: React.FC<PhoneSignUpProps> = ({ navigation }) => {
                 <Text style={styles.text}>{string.signIn}</Text>
             </View>
             {confirm ? (
-                <OtpScreen confirm={confirm} />
+                <OtpScreen confirm={onConfirm} />
             ) : (
                 <TouchableOpacity
-                    onPress={() => signInWithPhoneNumber('')}
+                    onPress={() => signInWithPhoneNumber('+919255265660')}
                     style={styles.buttonContainer}
                 >
                     <Text style={styles.buttonText}>Phone Number Sign In</Text>
