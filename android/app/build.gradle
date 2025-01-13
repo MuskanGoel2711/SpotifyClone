@@ -1,6 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.android.application"
-apply plugin: "com.google.gms.google-services"
+apply plugin: 'com.google.gms.google-services'
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
@@ -112,6 +112,8 @@ android {
 }
 dependencies {
     implementation 'com.google.android.gms:play-services-auth:latest_version'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.facebook.android:facebook-login:[8,9)'
 }
 
 dependencies {

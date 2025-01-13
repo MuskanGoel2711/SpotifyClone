@@ -10,6 +10,8 @@ import { images } from '../../assets/index';
 type RootStackParamList = {
     FirstScreen: undefined;
     HomeScreen: undefined;
+    TutorialScreen: undefined;
+    TutorialScreen1: undefined;
 };
 
 type SplashScreenProps = {
@@ -31,7 +33,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
                 } else {
                     navigation.reset({
                         index: 0,
-                        routes: [{ name: 'FirstScreen' }],
+                        routes: [{ name: 'TutorialScreen' }],
                     });
                 }
             }, 2000);
@@ -44,7 +46,8 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
         <View style={styles.MainContainer}>
             <View style={styles.RootView}>
                 <View style={styles.ChildView}>
-                    <Image source={images.spotify} style={styles.gif} />
+                    {/* <Image source={images.spotify} style={styles.gif} /> */}
+                    <Image source={images.splash} style={styles.gif} />
                 </View>
             </View>
         </View>

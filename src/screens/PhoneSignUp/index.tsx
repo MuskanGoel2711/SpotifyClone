@@ -6,12 +6,16 @@ import OtpScreen from '../OtpScreen/index';
 import { images } from '../../assets/index';
 import { vh, vw } from '../../utils/Dimensions';
 import string from '../../utils/enum';
+import { useDispatch } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
+import { login } from '../../redux/config/AuthSlice';
 
 interface PhoneSignUpProps {
     navigation: any;
 }
 
 const PhoneSignUp: React.FC<PhoneSignUpProps> = ({ navigation }) => {
+    const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const [confirm, setConfirm] = useState<FirebaseAuthTypes.ConfirmationResult | null>(null);
 
@@ -24,7 +28,13 @@ const PhoneSignUp: React.FC<PhoneSignUpProps> = ({ navigation }) => {
         }
     }
     const onConfirm = () => {
-        navigation.navigate('HomeScreen')
+        dispatch(login())
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'HomeScreen' }],
+            })
+        );
     }
     return (
         <View style={[styles.container, { paddingTop: insets.top }]}>
